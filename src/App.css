@@ -1,0 +1,74 @@
+@import '~antd/dist/antd.css';
+
+.logo {
+  width: 375px;
+  height: 31px;
+
+  margin: 0px 16px 0px 0;
+  float: left;
+}
+
+.logo-image{
+  width: 200px;
+}
+
+/**Water already taken care of **/
+
+.ant-menu-item-selected.fire{
+  background-color:#f43636 !important;
+}
+
+.ant-menu-item-selected.wind{
+  background-color:#1ab500 !important;
+}
+
+.ant-menu-item-selected.earth{
+  background-color: #a55a21 !important;
+}
+
+.ant-menu-item-selected.light{
+  background-color: #d1ce25 !important;
+}
+
+.ant-menu-item-selected.dark{
+  background-color:#5d20bb !important;
+}
+
+
+.header-text{
+  color: white;
+  padding-left: 10px;
+  font-weight: 800;
+  font-size: 20px;
+  position: relative;
+  top: -2px;
+}
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
