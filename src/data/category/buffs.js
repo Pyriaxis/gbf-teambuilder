@@ -105,7 +105,7 @@ export class TEAM_CRITICAL extends GENERIC_BUFF {
 
     getValue(){
         //100% scaling
-        return round((this.cc) * (1 + this.cd) * this.uptime, 2);
+        return round((this.cc) * (this.cd) * this.uptime, 2);
     }
 
     getDisplay(){

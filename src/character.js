@@ -8,7 +8,6 @@ import './character.css';
 class Character extends Component {
     constructor(props) {
         super(props);
-        this.character = (find(waterChars, {'name': props.name}))
     }
 }
 
@@ -16,9 +15,9 @@ export class CGeneral extends Character {
     render(){
         return (
             <div>
-                <h1>{this.character.name}</h1>
-
-                <p>{this.character.description}</p>
+                <img src={this.props.character.picture}/>
+                <h1>{this.props.character.name}</h1>
+                <p>{this.props.character.description}</p>
             </div>
         )
     }
@@ -30,8 +29,8 @@ export class CStrengths extends Character {
     }
 
     render(){
-        let positives = this.character.strengths.map((item, index)=>{
-            return generatePositiveList(item);
+        let positives = this.props.character.strengths.map((item, index)=>{
+            return generatePositiveList(item, index);
         });
 
         return (
@@ -48,8 +47,8 @@ export class CTeamBuffs extends Character{
     }
 
     render(){
-        let teamBuffs = this.character.team_buffs.map((item, index)=>{
-            return generatePositiveList(item);
+        let teamBuffs = this.props.character.team_buffs.map((item, index)=>{
+            return generatePositiveList(item, index);
         });
 
         return(
@@ -66,8 +65,8 @@ export class CDebuffs extends Character{
     }
 
     render(){
-        let debuffs = this.character.debuffs.map((item, index)=>{
-           return generatePositiveList(item);
+        let debuffs = this.props.character.debuffs.map((item, index)=>{
+           return generatePositiveList(item, index);
         });
 
         return(
@@ -84,8 +83,8 @@ export class CWeaknesses extends Character{
     }
 
     render(){
-        let weaknesses = this.character.weaknesses.map((item, index)=>{
-            return generatePositiveList(item);
+        let weaknesses = this.props.character.weaknesses.map((item, index)=>{
+            return generatePositiveList(item, index);
         });
 
        return (
@@ -96,7 +95,7 @@ export class CWeaknesses extends Character{
     }
 }
 
-export class CIndividualScore extends Character{
+export class CIndividualScores extends Character{
     constructor(props) {
         super(props);
     }
@@ -110,9 +109,9 @@ export class CIndividualScore extends Character{
     }
 }
 
-function generatePositiveList(item){
+function generatePositiveList(item, index){
     return (
-        <div>
+        <div key={index}>
             <Row>
                 <Col className={'desc'} span={18}>{item.getDisplay()}</Col>
                 <Col className={'ppoints'} span={6}><p>{item.getModifier()}</p></Col>

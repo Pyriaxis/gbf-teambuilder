@@ -3,9 +3,7 @@ import logo from './img/gbf_2.png';
 import './App.css';
 import {Team} from './team';
 
-import { Layout, Menu, Icon, Divider } from 'antd';
-import { Row, Col } from 'antd';
-
+import { Layout, Menu, Icon } from 'antd';
 
 const { SubMenu } = Menu;
 const { Header, Content, Footer, Sider} = Layout;
@@ -35,9 +33,7 @@ class App extends Component {
           </Header>
           <Content style={{ padding: '32px 50px 0px 50px' }}>
               <Layout style={{padding: '24px 0 0 0', background: '#fff' }}>
-                  <Content style={{ "overflowX": "auto", padding: '0px 24px', minHeight: 280 }}>
-                      <Team/>
-                  </Content>
+                  <Team/>
                   <Sider width={300} style={{ background: '#fff' }}>
                       <Menu
                           mode="inline"

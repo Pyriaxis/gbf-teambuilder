@@ -16,7 +16,19 @@ import { round } from 'lodash';
 
 export default [
     {
+        name: 'Blank',
+        picture: '/img/blankSSR.jpg',
+        description: 'Empty Slot',
+        spec: [],
+        strengths: [],
+        nukes:[],
+        team_buffs: [],
+        debuffs: [],
+        weaknesses: []
+    },
+    {
         name: 'Izmir',
+        picture: '/img/water/izmir.jpg',
         description: 'Draph Attacker-Buffer, that can do some serious Ougi damage given the opportunity. Shines when granted MA, such as from an Atma Sword.',
         spec: ['sword'],
         strengths: [ new SERAPH(),
@@ -31,6 +43,7 @@ export default [
     },
     {
         name: 'Yuel (Wet)',
+        picture: '/img/water/yuel.jpg',
         description: 'Foxy Erune that utilizes flames but is somehow in water. Selling point is the MA Team buff, which Water sorely needs.',
         spec: ['sword', 'katana'],
         strengths: [],
@@ -49,6 +62,7 @@ export default [
     },
     {
         name: 'Romeo',
+        picture: '/img/water/romeo.jpg',
         description: 'Former lord turned Batman, he hits hard with stacks and is relatively bursty with his triple nuke while being able to protect the team. Not ideal for long fights, however.',
         spec: ['sword'],
         strengths:[
