@@ -85,7 +85,7 @@ export class CWeaknesses extends Character{
 
     render(){
         let weaknesses = this.character.weaknesses.map((item, index)=>{
-            return generateNegativeList(item);
+            return generatePositiveList(item);
         });
 
        return (
@@ -115,17 +115,8 @@ function generatePositiveList(item){
         <div>
             <Row>
                 <Col className={'desc'} span={18}>{item.getDisplay()}</Col>
-                <Col className={'ppoints'} span={6}><p>+{item.getValue()} pts</p></Col>
+                <Col className={'ppoints'} span={6}><p>{item.getModifier()}</p></Col>
             </Row>
         </div>)
 }
 
-function generateNegativeList(item){
-    return (
-        <div>
-            <Row>
-                <Col className={'desc'} span={18}>{item.getDisplay()}</Col>
-                <Col className={'npoints'} span={6}><p>-{item.getValue()} pts</p></Col>
-            </Row>
-        </div>)
-}

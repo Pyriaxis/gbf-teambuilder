@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import logo from './img/gbf_2.png';
 import './App.css';
-import {CGeneral, CStrengths, CTeamBuffs, CDebuffs, CWeaknesses, CIndividualScore} from './character';
+import {Team} from './team';
 
-import { Layout, Menu, Breadcrumb, Icon, Divider } from 'antd';
+import { Layout, Menu, Icon, Divider } from 'antd';
 import { Row, Col } from 'antd';
+
 
 const { SubMenu } = Menu;
 const { Header, Content, Footer, Sider} = Layout;
@@ -35,54 +36,7 @@ class App extends Component {
           <Content style={{ padding: '32px 50px 0px 50px' }}>
               <Layout style={{padding: '24px 0 0 0', background: '#fff' }}>
                   <Content style={{ "overflowX": "auto", padding: '0px 24px', minHeight: 280 }}>
-                      <p>Team Layout</p>
-                      <Row gutter={8} style={{"flexWrap": "nowrap"}} type="flex" justify="center">
-                          <Col style={{ "minWidth": '250px'}} span={4}><CGeneral name ={'Romeo'} /></Col>
-                          <Col style={{ "minWidth": '250px'}} span={4}><CGeneral name ={'Yuel (Wet)'} /></Col>
-                          <Col style={{ "minWidth": '250px'}} span={4}><CGeneral name ={'Izmir'} /></Col>
-                          <Col style={{ "minWidth": '250px'}} span={4}><CGeneral name ={'Romeo'} /></Col>
-                      </Row>
-
-                      <Divider>Strengths</Divider>
-                      <Row gutter={8} style={{"flexWrap": "nowrap"}} type="flex" justify="center">
-                          <Col style={{ "minWidth": '250px'}} span={4}><CStrengths name ={'Romeo'} /></Col>
-                          <Col style={{ "minWidth": '250px'}} span={4}><CStrengths name ={'Yuel (Wet)'} /></Col>
-                          <Col style={{ "minWidth": '250px'}} span={4}><CStrengths name ={'Izmir'} /></Col>
-                          <Col style={{ "minWidth": '250px'}} span={4}><CStrengths name ={'Romeo'} /></Col>
-                      </Row>
-
-                      <Divider>Weaknesses</Divider>
-                      <Row gutter={8} style={{"flexWrap": "nowrap"}} type="flex" justify="center">
-                          <Col style={{ "minWidth": '250px'}} span={4}><CWeaknesses name ={'Romeo'} /></Col>
-                          <Col style={{ "minWidth": '250px'}} span={4}><CWeaknesses name ={'Yuel (Wet)'} /></Col>
-                          <Col style={{ "minWidth": '250px'}} span={4}><CWeaknesses name ={'Izmir'} /></Col>
-                          <Col style={{ "minWidth": '250px'}} span={4}><CWeaknesses name ={'Romeo'} /></Col>
-                      </Row>
-
-                      <Divider>Debuffs</Divider>
-                      <Row gutter={8} style={{"flexWrap": "nowrap"}} type="flex" justify="center">
-                          <Col style={{ "minWidth": '250px'}} span={4}><CDebuffs name ={'Romeo'} /></Col>
-                          <Col style={{ "minWidth": '250px'}} span={4}><CDebuffs name ={'Yuel (Wet)'} /></Col>
-                          <Col style={{ "minWidth": '250px'}} span={4}><CDebuffs name ={'Izmir'} /></Col>
-                          <Col style={{ "minWidth": '250px'}} span={4}><CDebuffs name ={'Romeo'} /></Col>
-                      </Row>
-
-                      <Divider>Team Buffs</Divider>
-                      <Row gutter={8} style={{"flexWrap": "nowrap"}} type="flex" justify="center">
-                          <Col style={{ "minWidth": '250px'}} span={4}><CTeamBuffs name ={'Romeo'} /></Col>
-                          <Col style={{ "minWidth": '250px'}} span={4}><CTeamBuffs name ={'Yuel (Wet)'} /></Col>
-                          <Col style={{ "minWidth": '250px'}} span={4}><CTeamBuffs name ={'Izmir'} /></Col>
-                          <Col style={{ "minWidth": '250px'}} span={4}><CTeamBuffs name ={'Romeo'} /></Col>
-                      </Row>
-
-                      <Divider>Final Attack Score</Divider>
-                      <Row gutter={8} style={{"flexWrap": "nowrap"}} type="flex" justify="center">
-                          <Col style={{ "minWidth": '250px'}} span={4}><CIndividualScore name ={'Romeo'} /></Col>
-                          <Col style={{ "minWidth": '250px'}} span={4}><CIndividualScore name ={'Yuel (Wet)'} /></Col>
-                          <Col style={{ "minWidth": '250px'}} span={4}><CIndividualScore name ={'Izmir'} /></Col>
-                          <Col style={{ "minWidth": '250px'}} span={4}><CIndividualScore name ={'Romeo'} /></Col>
-                      </Row>
-
+                      <Team/>
                   </Content>
                   <Sider width={300} style={{ background: '#fff' }}>
                       <Menu

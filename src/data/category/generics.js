@@ -12,6 +12,10 @@ export class GENERIC{
     getDisplay(){
         return `Generic template String`;
     }
+
+    getModifier(){
+        return this.getValue();
+    }
 };
 
 export class CUSTOM_STRING extends GENERIC{

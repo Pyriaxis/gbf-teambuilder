@@ -1,6 +1,6 @@
 import {
     SERAPH,
-    ATTACK_UP_STK,
+    ATTACK_UP_STK_UNIQUE,
     OUGI_SPEC_UP,
     TEAM_CRITICAL,
     TEAM_MULTIATTACK,
@@ -20,7 +20,7 @@ export default [
         description: 'Draph Attacker-Buffer, that can do some serious Ougi damage given the opportunity. Shines when granted MA, such as from an Atma Sword.',
         spec: ['sword'],
         strengths: [ new SERAPH(),
-            new ATTACK_UP_STK(0.4),
+            new ATTACK_UP_STK_UNIQUE(0.4),
             new OUGI_SPEC_UP(1.5, 1)],
         nukes:[],
         team_buffs: [new TEAM_CRITICAL(0.5, 0.5, 0.6)],

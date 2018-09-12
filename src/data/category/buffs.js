@@ -3,9 +3,34 @@ import { round } from 'lodash';
 import {GENERIC} from "./generics";
 import { Row, Col } from 'antd';
 
-export class SERAPH extends GENERIC {
+/**
+ * GENERICS
+ *
+ * Attack
+ *
+ *
+ * Ougi
+ *
+ *
+ */
+
+class GENERIC_BUFF extends GENERIC{
+    constructor(param){
+        super(param);
+    }
+
+    getModifier(){
+        return `x${1+this.getValue()}`
+    }
+}
+
+class GENERIC_NORMAL_ATTACK extends GENERIC_BUFF{
+
+}
+
+export class SERAPH extends GENERIC_BUFF {
     constructor(){
-        super(2); //2 points for rather useless buff
+        super(0); //0 points for most part
     }
 
     getDisplay(){
@@ -14,14 +39,14 @@ export class SERAPH extends GENERIC {
     }
 }
 
-export class ATTACK_UP_STK extends GENERIC{
+export class ATTACK_UP_STK_UNIQUE extends GENERIC_BUFF{
     constructor(strength){
         super(strength);
     }
 
     getValue(){
-        //100% unique stacking up is 15 points
-        return round(15 * this.value, 1);
+        //Scaled to 70% due to time taken to stack
+        return round(this.value * 0.7, 2);
     }
 
     getDisplay(){
@@ -30,7 +55,7 @@ export class ATTACK_UP_STK extends GENERIC{
     }
 }
 
-export class ATTACK_UP_UNIQUE extends GENERIC{
+export class ATTACK_UP_UNIQUE extends GENERIC_BUFF{
     constructor(strength, uptime = 1, char = undefined){
         super(strength);
         this.uptime = uptime;
@@ -38,8 +63,8 @@ export class ATTACK_UP_UNIQUE extends GENERIC{
     }
 
     getValue(){
-        //100% unique up is 22 points
-        return round(22 * this.value, 1);
+        //100% scaling
+        return round(this.value * this.uptime, 2);
     }
 
     getDisplay() {
@@ -49,7 +74,7 @@ export class ATTACK_UP_UNIQUE extends GENERIC{
     }
 }
 
-export class OUGI_SPEC_UP extends GENERIC {
+export class OUGI_SPEC_UP extends GENERIC_BUFF {
     constructor(dmgUp, capUp){
         super();
         this.dmgUp = dmgUp;
@@ -57,8 +82,8 @@ export class OUGI_SPEC_UP extends GENERIC {
     }
 
     getValue(){
-        return round(Math.floor(this.capUp * 5),1);
-        //100% CAP up is 10 points
+        //33% weightage to dmgUp, 66% weightage to capUp
+        return round((this.capUp * 2/3 + this.dmgUp * 1/3), 2);
     }
 
     getDisplay(){
@@ -66,7 +91,11 @@ export class OUGI_SPEC_UP extends GENERIC {
     }
 }
 
-export class TEAM_CRITICAL extends GENERIC {
+/**
+ * TEAM BUFFS
+ */
+
+export class TEAM_CRITICAL extends GENERIC_BUFF {
     constructor(critChance, critDmg, uptime = 1){
         super();
         this.cc = critChance;
@@ -75,8 +104,8 @@ export class TEAM_CRITICAL extends GENERIC {
     }
 
     getValue(){
-        //100% dmg up is 25 points * uptime
-        return round(25 * (this.cc) * (1 + this.cd) * this.uptime, 1);
+        //100% scaling
+        return round((this.cc) * (1 + this.cd) * this.uptime, 2);
     }
 
     getDisplay(){
@@ -84,7 +113,7 @@ export class TEAM_CRITICAL extends GENERIC {
     }
 }
 
-export class TEAM_MULTIATTACK extends GENERIC {
+export class TEAM_MULTIATTACK extends GENERIC_BUFF {
     constructor(da, ta, uptime = 1){
         super();
         this.da = da;
@@ -93,8 +122,8 @@ export class TEAM_MULTIATTACK extends GENERIC {
     }
 
     getValue(){
-        //100% TA is 35 points * uptime
-        return round( (35 * (this.ta) + 15 * ((1-this.ta) * this.da)) * this.uptime,1)
+        // 110% scaling - cos MA is king.
+        return round((((this.ta)*2 + ((1-this.ta) * this.da)) * this.uptime) * 1.1 ,2)
     }
 
     getDisplay(){
@@ -103,15 +132,15 @@ export class TEAM_MULTIATTACK extends GENERIC {
     }
 }
 
-export class TEAM_DEBUFF_SUCCESS extends GENERIC {
+export class TEAM_DEBUFF_SUCCESS extends GENERIC_BUFF {
     constructor(strength, uptime = 1){
         super(strength);
         this.uptime = uptime;
     }
 
     getValue(){
-        //100% debuff success up is 10 points * uptime
-        return round(this.value * 10 * this.uptime, 1)
+        //@todo: decide on score aftewards
+        return 0;
     }
 
     getDisplay(){
@@ -120,15 +149,15 @@ export class TEAM_DEBUFF_SUCCESS extends GENERIC {
     }
 }
 
-export class TEAM_ECHO extends GENERIC{
+export class TEAM_ECHO extends GENERIC_BUFF{
     constructor(strength, uptime = 1){
         super(strength);
         this.uptime = uptime;
     }
 
     getValue(){
-        //100% echoes is 25 points * uptime
-        return round(this.value * 25 * this.uptime, 1)
+        //100% scaling
+        return round(this.value * this.uptime, 2)
     }
 
     getDisplay(){
@@ -137,15 +166,15 @@ export class TEAM_ECHO extends GENERIC{
     }
 }
 
-export class TEAM_ELE_CUT extends GENERIC{
+export class TEAM_ELE_CUT extends GENERIC_BUFF{
     constructor(strength, cooldown = 10){
         super(strength);
         this.cooldown = cooldown;
     }
 
     getValue(){
-        //5 points for 100% cut on 6 turn cd
-        return round(this.value * 5 / this.cooldown * 6, 1);
+        //@todo: decide on score afterwards;
+        return 0;
     }
 
     getDisplay(){
