@@ -84,6 +84,8 @@ export class Team extends Component{
     }
 
     render(){
+        let rowStyle = {"flexWrap": "nowrap", "margin": 'auto', "maxWidth": '1000px'};
+
         let cGeneral = this.state.characterArray.map((item, index)=>{
             return <Col key={index} style={{ "minWidth": '250px'}} span={4}><CGeneral character={this.getCharacter(item)} /></Col>
         });
@@ -111,7 +113,7 @@ export class Team extends Component{
         return (
         <Content style={{ "overflowX": "auto", padding: '0px 24px', minHeight: 280 }}>
             <p>Team Layout</p>
-            <Row gutter={8} style={{"flexWrap": "nowrap", "margin": 'auto'}} type="flex">
+            <Row gutter={8} style={rowStyle} type="flex">
                 <Col style={{ "minWidth": '250px'}} span={4}>
                     <Dropdown index={0} updateSt={this.onClick} />
                 </Col>
@@ -126,32 +128,32 @@ export class Team extends Component{
                 </Col>
             </Row>
 
-            <Row gutter={8} style={{"flexWrap": "nowrap", "margin": 'auto'}} type="flex">
+            <Row gutter={8} style={rowStyle} type="flex">
                 {cGeneral}
             </Row>
 
             <Divider>Strengths</Divider>
-            <Row gutter={8} style={{"flexWrap": "nowrap", "margin": 'auto'}} type="flex">
+            <Row gutter={8} style={rowStyle} type="flex">
                 {cStrengths}
             </Row>
 
             <Divider>Weaknesses</Divider>
-            <Row gutter={8} style={{"flexWrap": "nowrap", "margin": 'auto'}} type="flex">
+            <Row gutter={8} style={rowStyle} type="flex">
                 {cWeaknesses}
             </Row>
 
             <Divider>Debuffs</Divider>
-            <Row gutter={8} style={{"flexWrap": "nowrap", "margin": 'auto'}} type="flex">
+            <Row gutter={8} style={rowStyle} type="flex">
                 {cDebuffs}
             </Row>
 
             <Divider>Team Buffs</Divider>
-            <Row gutter={8} style={{"flexWrap": "nowrap", "margin": 'auto'}} type="flex">
+            <Row gutter={8} style={rowStyle} type="flex">
                 {cTeamBuffs}
             </Row>
 
             <Divider>Final Attack Score</Divider>
-            <Row gutter={8} style={{"flexWrap": "nowrap", "margin": 'auto'}} type="flex">
+            <Row gutter={8} style={rowStyle} type="flex">
                 {cIndividualScore}
             </Row>
         </Content>);
