@@ -4,7 +4,7 @@
 
 GBF Team Builder is a standalone web app that will help novice and intermediate players build their frontline of 4 characters (1 MC + 3 Crew) within an element. As team optimization in GBF is quite a bit more complex than number crunching, it's suggestions may not be directly useful to veteran and end-game players, and they are encouraged to use this app as a basis for further analysis.
 
----
+
 ## Features
 
   - Customize the MC and select 3 other characters and get a team rating broken down into Attack, Survivability and Utility Score
@@ -14,18 +14,23 @@ GBF Team Builder is a standalone web app that will help novice and intermediate 
 
 ## Calculations
 **Individual Auto Attack Power**
+
 `Base Attack Power (20) * Normal Attack Mod * Unique Attack Mod * MA Mod * Crit Mod * Echo Mod`
 
 **Individual Ougi Attack Power**
+
 `Base Ougi Power (90) * Normal Attack Mod * Unique Attack Mod * Crit Mod * Ougi Spec Up Mod * Ougi Echo Mod` 
 
 **Final Team Attack Power**
+
 `Sum (Individual Attack Power) * (Def Down + Ele down) + Nukes`
 
 **Final Team Survival Score**
+
 `(Base + Heal + Shield) * (Atk Down + Ele down) * Blind * Charm + Dmg Cuts + Para + Superfear`
 
 **Final Team Utility Score**
+
 `Veil + Clear + Debuff Success + Fear + Gravity`
 
 ## Assumptions
