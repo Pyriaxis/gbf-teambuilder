@@ -13,6 +13,10 @@ export class GENERIC{
         return `Generic template String`;
     }
 
+    getTeamDisplay(){
+        return `Generic Team template String`;
+    }
+
     getModifier(){
         return this.getValue();
     }

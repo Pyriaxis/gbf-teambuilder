@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 
 import {CGeneral, CStrengths, CTeamBuffs, CDebuffs, CWeaknesses, CIndividualScores} from './character';
+import {mcPresets} from './data/mc';
 
 import { Layout, Divider } from 'antd';
 import { Row, Col } from 'antd';
-import { Select } from 'antd';
+import { Select, Cascader } from 'antd';
 
 import waterChars from './data/water';
 import {find} from "lodash";
@@ -43,7 +44,7 @@ class Dropdown extends Component{
             placeholder="Select a character"
             optionFilterProp="children"
             onChange={this.onChange}
-            filterOption={(input, option) => option.props.value.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+            filterOption={true}
         >
             {options}
         </Select>)
@@ -57,6 +58,7 @@ export class Team extends Component{
         this.state = {
             mcArray:[],
             characterArray: [waterChars[0], waterChars[0], waterChars[0], waterChars[0]],
+            teamBuffsArray: []
         };
 
         this.onClick = this.onClick.bind(this);
@@ -64,14 +66,18 @@ export class Team extends Component{
 
     onClick(index, value){
         let newCharacterArray = [...this.state.characterArray];
-        let newTeamBuffsArray
-
         newCharacterArray[index] = this.getCharacter(value);
 
+        let newTeamBuffsArray = [];
+
+        newCharacterArray.forEach((character)=>{
+            newTeamBuffsArray = [...newTeamBuffsArray, ...character.team_buffs];
+        })
 
         this.setState({
-            characterArray: newCharacterArray
-        }, ()=>{return this.state.characterArray});
+            characterArray: newCharacterArray,
+            teamBuffsArray: newTeamBuffsArray
+        });
 
     }
 
@@ -103,15 +109,27 @@ export class Team extends Component{
         });
 
         let cIndividualScore = this.state.characterArray.map((item,index)=>{
-            return <Col key={index} style={{ "minWidth": '250px'}} span={4}><CIndividualScores character={item} team={this.state.characterArray}/></Col>
+            return <Col key={index} style={{ "minWidth": '250px'}} span={4}><CIndividualScores character={item} team={this.state.teamBuffsArray}/></Col>
         });
+
+        function filter(inputValue, path) {
+            return (path.some(option => {
+                return (option.label).toLowerCase().indexOf(inputValue.toLowerCase()) > -1
+            }
+            ));
+        }
 
         return (
         <Content style={{ "overflowX": "auto", padding: '0px 24px', minHeight: 280 }}>
             <p>Team Layout</p>
             <Row gutter={8} style={rowStyle} type="flex">
                 <Col style={{ "minWidth": '250px'}} span={4}>
-                    <Dropdown index={0} updateSt={this.onClick} />
+                    <Cascader 
+                        options={mcPresets} 
+                        style={{ width:240, marginBottom: 10}} 
+                        placeholder="Customize the MC"
+                        showSearch={{filter}}
+                    />
                 </Col>
                 <Col style={{ "minWidth": '250px'}} span={4}>
                     <Dropdown index={1} updateSt={this.onClick}/>

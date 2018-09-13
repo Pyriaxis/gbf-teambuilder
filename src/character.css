@@ -2,10 +2,34 @@
     font-size: 12px;
     font-weight: 600;
     color: #5fd23d;
+    margin-bottom:0.25em;
 }
 
 .npoints p{
     font-size: 12px;
     font-weight: 600;
     color: #e82816;
+}
+
+.base p{
+    font-weight: 600;
+    margin-bottom: 0.5em;
+}
+
+.buffs p{
+    font-size: 8pt;
+    margin-bottom: 0.25em;
+}
+
+.final p{
+    font-weight:600;
+    margin-top:0.5em;
+    font-size: 15px
+}
+
+.finalpts p{
+    font-weight: 600;
+    font-size: 15px;
+    color: rgb(75, 75, 236);
+    margin-top:0.5em;
 }

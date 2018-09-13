@@ -1,12 +1,4 @@
-import {
-    SERAPH,
-    ATTACK_UP_STK_UNIQUE,
-    OUGI_SPEC_UP,
-    TEAM_CRITICAL,
-    TEAM_MULTIATTACK,
-    TEAM_DEBUFF_SUCCESS,
-    TEAM_ECHO, ATTACK_UP_UNIQUE, TEAM_ELE_CUT
-} from './category/buffs';
+import * as buffs from './category/buffs';
 
 import { CUSTOM_STRING } from "./category/generics";
 import {ATK_DOWN_ELE, DEF_DOWN_ELE, BLIND} from "./category/debuff";
@@ -31,11 +23,11 @@ export default [
         picture: '/img/water/izmir.jpg',
         description: 'Draph Attacker-Buffer, that can do some serious Ougi damage given the opportunity. Shines when granted MA, such as from an Atma Sword.',
         spec: ['sword'],
-        strengths: [ new SERAPH(),
-            new ATTACK_UP_STK_UNIQUE(0.4),
-            new OUGI_SPEC_UP(1.5, 1)],
+        strengths: [ new buffs.SERAPH(),
+            new buffs.ATTACK_UP_STK_UNIQUE(0.4),
+            new buffs.OUGI_SPEC_UP(1.5, 1)],
         nukes:[],
-        team_buffs: [new TEAM_CRITICAL(0.5, 0.5, 0.6)],
+        team_buffs: [new buffs.CRITICAL(0.5, 0.5, 0.6)],
         debuffs: [],
         weaknesses: [
             new CUSTOM_STRING('Difficult to utilize her Icy Blade stacks fully.', -3)
@@ -49,9 +41,9 @@ export default [
         strengths: [],
         nukes:[],
         team_buffs: [
-            new TEAM_MULTIATTACK(0.3, 0.15, 0.5),
-            new TEAM_DEBUFF_SUCCESS(0.2, 0.5),
-            new TEAM_ECHO(0.1, round(6/7, 2))
+            new buffs.MULTIATTACK(0.3, 0.15, 0.5),
+            new buffs.DEBUFF_SUCCESS(0.2, 0.5),
+            new buffs.ECHO(0.1, round(6/7, 2))
         ],
         debuffs:[
             new ATK_DOWN_ELE(0.1),
@@ -68,12 +60,12 @@ export default [
         strengths:[
                 new OUGI_ECHO(635000),
                 new NUKE_ROMEO(630000, 6),
-                new ATTACK_UP_UNIQUE(0.3, 1, 'romeo'),
+                new buffs.ATTACK_UP_UNIQUE(0.3, 1, 'romeo'),
                 new CUSTOM_STRING('Able to tank multihit Ougis with Substitute and 80% Cut, 6T CD.', 5)
         ],
         nukes:[],
         team_buffs: [
-            new TEAM_ELE_CUT(0.8, 6)
+            new buffs.ELE_CUT(0.8, 6)
         ],
         debuffs: [
             new DEF_DOWN_ELE(0.2)
