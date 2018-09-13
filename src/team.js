@@ -56,11 +56,7 @@ export class Team extends Component{
         super(props);
         this.state = {
             mcArray:[],
-            characterArray: ['Romeo', 'Yuel (Wet)', 'Izmir', 'Romeo'],
-            teamBuffs: [],
-            defDown: [],
-            baseSurvival: [],
-            atkDown: [],
+            characterArray: [waterChars[0], waterChars[0], waterChars[0], waterChars[0]],
         };
 
         this.onClick = this.onClick.bind(this);
@@ -68,18 +64,18 @@ export class Team extends Component{
 
     onClick(index, value){
         let newCharacterArray = [...this.state.characterArray];
+        let newTeamBuffsArray
 
-        newCharacterArray[index] = value;
+        newCharacterArray[index] = this.getCharacter(value);
+
 
         this.setState({
             characterArray: newCharacterArray
         }, ()=>{return this.state.characterArray});
 
-        this.forceUpdate();
     }
 
     getCharacter(name){
-        console.log(find(waterChars, {'name': name}));
         return (find(waterChars, {'name': name}));
     }
 
@@ -87,27 +83,27 @@ export class Team extends Component{
         let rowStyle = {"flexWrap": "nowrap", "margin": 'auto', "maxWidth": '1000px'};
 
         let cGeneral = this.state.characterArray.map((item, index)=>{
-            return <Col key={index} style={{ "minWidth": '250px'}} span={4}><CGeneral character={this.getCharacter(item)} /></Col>
+            return <Col key={index} style={{ "minWidth": '250px'}} span={4}><CGeneral character={item} /></Col>
         });
 
         let cStrengths = this.state.characterArray.map((item, index)=>{
-            return <Col key={index} style={{ "minWidth": '250px'}} span={4}><CStrengths character={this.getCharacter(item)} /></Col>
+            return <Col key={index} style={{ "minWidth": '250px'}} span={4}><CStrengths character={item} /></Col>
         });
 
         let cWeaknesses = this.state.characterArray.map((item, index)=>{
-            return <Col key={index} style={{ "minWidth": '250px'}} span={4}><CWeaknesses character={this.getCharacter(item)} /></Col>
+            return <Col key={index} style={{ "minWidth": '250px'}} span={4}><CWeaknesses character={item} /></Col>
         });
 
         let cDebuffs = this.state.characterArray.map((item,index)=>{
-            return <Col key={index} style={{ "minWidth": '250px'}} span={4}><CDebuffs character={this.getCharacter(item)} /></Col>
+            return <Col key={index} style={{ "minWidth": '250px'}} span={4}><CDebuffs character={item} /></Col>
         });
 
         let cTeamBuffs = this.state.characterArray.map((item,index)=>{
-            return <Col key={index} style={{ "minWidth": '250px'}} span={4}><CTeamBuffs character={this.getCharacter(item)} /></Col>
+            return <Col key={index} style={{ "minWidth": '250px'}} span={4}><CTeamBuffs character={item} /></Col>
         });
 
         let cIndividualScore = this.state.characterArray.map((item,index)=>{
-            return <Col key={index} style={{ "minWidth": '250px'}} span={4}><CIndividualScores character={this.getCharacter(item)} /></Col>
+            return <Col key={index} style={{ "minWidth": '250px'}} span={4}><CIndividualScores character={item} team={this.state.characterArray}/></Col>
         });
 
         return (
@@ -132,27 +128,27 @@ export class Team extends Component{
                 {cGeneral}
             </Row>
 
-            <Divider>Strengths</Divider>
+            <Divider style={{"minWidth": "1000px"}}>Strengths</Divider>
             <Row gutter={8} style={rowStyle} type="flex">
                 {cStrengths}
             </Row>
 
-            <Divider>Weaknesses</Divider>
+            <Divider style={{"minWidth": "1000px"}}>Weaknesses</Divider>
             <Row gutter={8} style={rowStyle} type="flex">
                 {cWeaknesses}
             </Row>
 
-            <Divider>Debuffs</Divider>
+            <Divider style={{"minWidth": "1000px"}}>Debuffs</Divider>
             <Row gutter={8} style={rowStyle} type="flex">
                 {cDebuffs}
             </Row>
 
-            <Divider>Team Buffs</Divider>
+            <Divider style={{"minWidth": "1000px"}}>Team Buffs</Divider>
             <Row gutter={8} style={rowStyle} type="flex">
                 {cTeamBuffs}
             </Row>
 
-            <Divider>Final Attack Score</Divider>
+            <Divider style={{"minWidth": "1000px"}}>Final Attack Score</Divider>
             <Row gutter={8} style={rowStyle} type="flex">
                 {cIndividualScore}
             </Row>
