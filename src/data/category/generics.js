@@ -6,11 +6,7 @@ export class GENERIC{
     }
 
     getValue(){
-        return round(this.value, 1);
-    }
-
-    getDisplay(){
-        return `Generic template String`;
+        return round(this.value, 2);
     }
 
     getTeamDisplay(){
@@ -19,6 +15,10 @@ export class GENERIC{
 
     getModifier(){
         return this.getValue();
+    }
+
+    getDisplay(){
+        return `Generic template String`;
     }
 };
 

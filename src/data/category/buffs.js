@@ -14,20 +14,21 @@ import {GENERIC} from "./generics";
  */
 
 class GENERIC_BUFF extends GENERIC{
-    constructor(param){
+    constructor(param, uptime = 1){
         super(param);
+        this.uptime = uptime;
     }
 
     getModifier(){
         return `x${1+this.getValue()}`
     }
+
+    getTeamDisplay(){
+        return [<span>Team</span>, this.getDisplay()];
+    }
 }
 
-class GENERIC_NORMAL_ATTACK extends GENERIC_BUFF{
-
-}
-
-export class SERAPH extends GENERIC_BUFF {
+export class SERAPH extends GENERIC{
     constructor(){
         super(0); //0 points for most part
     }
@@ -38,7 +39,44 @@ export class SERAPH extends GENERIC_BUFF {
     }
 }
 
-export class ATTACK_UP_STK_UNIQUE extends GENERIC_BUFF{
+/**
+ * Attack Up Section
+ */
+
+export class ATK_UP_SINGLE extends GENERIC_BUFF{
+    getValue(){
+        //70% weightage due to normal overload
+        return round(this.value * this.uptime * 0.7, 2);
+    }
+
+    getDisplay(){
+        return <p>Normal Attack Mod (A) <br/>(+{this.value * 100}%) </p>
+    }
+}
+
+export class ATK_UP_DUAL extends GENERIC_BUFF{
+    getValue(){
+        //70% weightage due to normal overload
+        return round(this.value * this.uptime * 0.7, 2);
+    }
+
+    getDisplay(){
+        return <p>Normal Attack Mod (B) <br/>(+{this.value * 100}%) </p>
+    }
+}
+
+export class ATK_UP_OUGI extends GENERIC_BUFF{
+    getValue(){
+        //70% weightage due to normal overload
+        return round(this.value * this.uptime * 0.7, 2);
+    }
+
+    getDisplay(){
+        return <p>Normal Attack Mod (C) <br/>(+{this.value * 100}%) </p>
+    }
+}
+
+export class ATK_UP_STK_UNIQUE extends GENERIC_BUFF{
     constructor(strength){
         super(strength);
     }
@@ -50,14 +88,14 @@ export class ATTACK_UP_STK_UNIQUE extends GENERIC_BUFF{
 
     getDisplay(){
         return <p>Stackable Unique Attack Mod <br/>
-            ({this.value * 100}% Max Strength)</p>
+            (+{this.value * 100}% Max)</p>
     }
+
 }
 
-export class ATTACK_UP_UNIQUE extends GENERIC_BUFF{
+export class ATK_UP_UNIQUE extends GENERIC_BUFF{
     constructor(strength, uptime = 1, char = undefined){
-        super(strength);
-        this.uptime = uptime;
+        super(strength, uptime);
         this.char = char;
     }
 
@@ -68,8 +106,51 @@ export class ATTACK_UP_UNIQUE extends GENERIC_BUFF{
 
     getDisplay() {
         if (this.char === 'romeo') return (
-            <p>Consumes 1 Stack <br/>Unique Attack Mod ({this.value * 100}% Max Strength)</p>)
-        return (<p>Unique Attack Mod <br/>({this.value * 100}% Max Strength)</p>)
+            <p>Consumes 1 Stack <br/>Unique Attack Mod (+{this.value * 100}%)</p>)
+        return (<p>Unique Attack Mod <br/>(+{this.value * 100}%)</p>)
+    }
+}
+
+export class ATK_UP_ELEMENT extends GENERIC_BUFF{
+    getValue(){
+        //on element, 66% scaling
+        return round(this.value * 2/3, 2)
+    }
+
+    getDisplay(){
+        return <p>Elemental Attack Up <br/>(+{this.value * 100}%}</p>
+    }
+}
+
+/**
+ * DEF UP Section
+ */
+
+export class DEF_UP_SINGLE extends GENERIC_BUFF{
+    getValue(){
+        return round(this.value * this.uptime, 2);
+    }
+
+    getDisplay(){
+        return <p>Defense Up (A) <br/>(+{this.value * 100}%) </p>
+    }
+
+    getModifier(){
+        return '+Srv'
+    }
+}
+
+export class DEF_UP_SPECIAL extends GENERIC_BUFF{
+    getValue(){
+        return round(this.value * this.uptime, 2);
+    }
+
+    getDisplay(){
+        return <p>Defense Up (C) <br/>(+{this.value * 100}%) </p>
+    }
+
+    getModifier(){
+        return '+Srv'
     }
 }
 
@@ -137,11 +218,6 @@ export class MULTIATTACK extends GENERIC_BUFF {
 }
 
 export class DEBUFF_SUCCESS extends GENERIC_BUFF {
-    constructor(strength, uptime = 1){
-        super(strength);
-        this.uptime = uptime;
-    }
-
     getValue(){
         //@todo: decide on score aftewards
         return 0;
@@ -159,11 +235,6 @@ export class DEBUFF_SUCCESS extends GENERIC_BUFF {
 }
 
 export class ECHO extends GENERIC_BUFF{
-    constructor(strength, uptime = 1){
-        super(strength);
-        this.uptime = uptime;
-    }
-
     getValue(){
         //100% scaling
         return round(this.value * this.uptime, 2)
@@ -197,6 +268,29 @@ export class ELE_CUT extends GENERIC_BUFF{
 
     getTeamDisplay(){
         return <p>Team Element Damage Cut <br/>({this.value * 100}% Strength, {this.cooldown}T Cooldown)</p>
+    }
+
+    getModifier(){
+        return '';
+    }
+}
+
+export class CHARGE_BAR_BOOST extends GENERIC_BUFF{
+    constructor(strength, cooldown = 10){
+        super(strength);
+        this.cooldown = cooldown;
+    }
+
+    getValue(){
+        return 0;
+    }
+
+    getDisplay(){
+        return <p>Charge Bar Boost <br/>(${this.value*100}%, {this.cooldown}T Cooldown)</p>
+    }
+
+    getModifier(){
+        return '+Ougi Weight'
     }
 }
 
