@@ -15,9 +15,19 @@ class Character extends Component {
 
 export class CGeneral extends Character {
     render(){
+        let picture;
+        if (this.props.character.pictureMC){
+            picture =
+                (<div style={{"width": "200px", overflow: 'hidden', margin: 0, border: "2px solid gold"}}>
+                    <img style={{"width": '226.926%', 'marginLeft': '-10%'}} src={this.props.character.picture}/>
+                </div>)
+        } else {
+            picture = <img style={{"width": "200px"}} src={this.props.character.picture}/>
+        }
+
         return (
             <div>
-                <img style={{"width": "200px"}} src={this.props.character.picture}/>
+                {picture}
                 <h1>{this.props.character.name}</h1>
                 <p>{this.props.character.description}</p>
             </div>

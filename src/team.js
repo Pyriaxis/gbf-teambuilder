@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import {CGeneral, CStrengths, CTeamBuffs, CDebuffs, CWeaknesses, CIndividualScores, CAAFinalScore} from './character';
-import {mcPresets} from './data/mc';
+import {mcPresets, generateMcFromTemplate} from './data/mc';
 
 import {Layout, Divider, Menu, Icon, Select, Cascader, Row, Col} from 'antd';
 
@@ -23,7 +23,12 @@ class Dropdown extends Component{
 
     onChange(value){
         console.log(`Updating Dropdown with ${value} at ${this.index}.`);
-        this.props.updateSt(this.index, value);
+        let char = this.getCharacter(value);
+        this.props.updateSt(this.index, char);
+    }
+
+    getCharacter(name){
+        return (find(waterChars, {'name': name}));
     }
 
     render() {
@@ -49,6 +54,37 @@ class Dropdown extends Component{
     }
 }
 
+class McSelector extends Component{
+    constructor(props){
+        super(props);
+        this.updateSt = props.updateSt;
+        this.onChange = this.onChange.bind(this);
+    }
+
+    onChange(value){
+        console.log(`Updating Dropdown with ${value} at MC Position.`);
+        let char = generateMcFromTemplate(value);
+        this.props.updateSt(0, char); //DJ always 0 index.
+    }
+
+    render(){
+        function filter(inputValue, path) {
+            return (path.some(option => {
+                    return (option.label).toLowerCase().indexOf(inputValue.toLowerCase()) > -1
+                }
+            ));
+        }
+
+        return (<Cascader
+            options={mcPresets}
+            style={{ width:240, marginBottom: 10}}
+            placeholder="Customize the MC"
+            onChange = {this.onChange}
+            showSearch={{filter}}
+        />)
+    }
+}
+
 
 export class Team extends Component{
     constructor(props){
@@ -62,9 +98,9 @@ export class Team extends Component{
         this.onClick = this.onClick.bind(this);
     }
 
-    onClick(index, value){
+    onClick(index, char){
         let newCharacterArray = [...this.state.characterArray];
-        newCharacterArray[index] = this.getCharacter(value);
+        newCharacterArray[index] = char;
 
         let newTeamBuffsArray = [];
 
@@ -97,10 +133,6 @@ export class Team extends Component{
             multipliers: multipliers
         });
 
-    }
-
-    getCharacter(name){
-        return (find(waterChars, {'name': name}));
     }
 
     render(){
@@ -139,25 +171,13 @@ export class Team extends Component{
             baseTeamAttackScore += this.state.multipliers[i].finalAA || 0;
         }
 
-        function filter(inputValue, path) {
-            return (path.some(option => {
-                return (option.label).toLowerCase().indexOf(inputValue.toLowerCase()) > -1
-            }
-            ));
-        }
-
         return (
         <Layout style={{padding: '24px 0 0 0', background: '#fff' }}>
             <Content style={{ "overflowX": "auto", padding: '0px 24px', minHeight: 280 }}>
                 <p>Team Layout</p>
                 <Row gutter={8} style={rowStyle} type="flex">
                     <Col style={{ "minWidth": '250px'}} span={4}>
-                        <Cascader
-                            options={mcPresets}
-                            style={{ width:240, marginBottom: 10}}
-                            placeholder="Customize the MC"
-                            showSearch={{filter}}
-                        />
+                        <McSelector updateSt={this.onClick}/>
                     </Col>
                     <Col style={{ "minWidth": '250px'}} span={4}>
                         <Dropdown index={1} updateSt={this.onClick}/>

@@ -50,7 +50,7 @@ export class ATK_UP_SINGLE extends GENERIC_BUFF{
     }
 
     getDisplay(){
-        return <p>Normal Attack Mod (A) <br/>(+{this.value * 100}%) </p>
+        return <p>Normal Attack Mod (A) <br/>(+{this.value * 100}%, {Math.round(this.uptime * 100)}% Uptime) </p>
     }
 }
 
@@ -61,7 +61,7 @@ export class ATK_UP_DUAL extends GENERIC_BUFF{
     }
 
     getDisplay(){
-        return <p>Normal Attack Mod (B) <br/>(+{this.value * 100}%) </p>
+        return <p>Normal Attack Mod (B) <br/>(+{this.value * 100}%, {Math.round(this.uptime * 100)}% Uptime) </p>
     }
 }
 
@@ -72,7 +72,7 @@ export class ATK_UP_OUGI extends GENERIC_BUFF{
     }
 
     getDisplay(){
-        return <p>Normal Attack Mod (C) <br/>(+{this.value * 100}%) </p>
+        return <p>Normal Attack Mod (C) <br/>(+{this.value * 100}%, {Math.round(this.uptime * 100)}% Uptime) </p>
     }
 }
 
@@ -118,7 +118,7 @@ export class ATK_UP_ELEMENT extends GENERIC_BUFF{
     }
 
     getDisplay(){
-        return <p>Elemental Attack Up <br/>(+{this.value * 100}%}</p>
+        return <p>Elemental Attack Up <br/>(+{this.value * 100}%, {Math.round(this.uptime * 100)}% Uptime)</p>
     }
 }
 
@@ -132,7 +132,7 @@ export class DEF_UP_SINGLE extends GENERIC_BUFF{
     }
 
     getDisplay(){
-        return <p>Defense Up (A) <br/>(+{this.value * 100}%) </p>
+        return <p>Defense Up (A) <br/>(+{this.value * 100}%, {Math.round(this.uptime * 100)}% Uptime) </p>
     }
 
     getModifier(){
@@ -146,7 +146,7 @@ export class DEF_UP_SPECIAL extends GENERIC_BUFF{
     }
 
     getDisplay(){
-        return <p>Defense Up (C) <br/>(+{this.value * 100}%) </p>
+        return <p>Defense Up (C) <br/>(+{this.value * 100}%, {Math.round(this.uptime * 100)}% Uptime) </p>
     }
 
     getModifier(){
@@ -286,7 +286,7 @@ export class CHARGE_BAR_BOOST extends GENERIC_BUFF{
     }
 
     getDisplay(){
-        return <p>Charge Bar Boost <br/>(${this.value*100}%, {this.cooldown}T Cooldown)</p>
+        return <p>Charge Bar Boost <br/>({this.value*100}%, {this.cooldown}T Cooldown)</p>
     }
 
     getModifier(){
