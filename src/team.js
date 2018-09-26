@@ -1,13 +1,26 @@
 import React, { Component } from 'react';
 
-import {CGeneral, CStrengths, CTeamBuffs, CDebuffs, CWeaknesses, CIndividualScores, CAAFinalScore} from './character';
+import {
+    CGeneral,
+    CStrengths,
+    CTeamBuffs,
+    CDebuffs,
+    CWeaknesses,
+    CIndividualAAScores, CAAFinalScore,
+    CIndividualOugiScores, COugiFinalScore,
+    CChargeCalculations, CFinalScore } from './character';
 import {mcPresets, generateMcFromTemplate} from './data/mc';
-
 import {Layout, Divider, Menu, Icon, Select, Cascader, Row, Col} from 'antd';
-
 import waterChars from './data/water';
 import {find, round} from "lodash";
-import {calcCritical, calcEcho, calcMultiattack, calcNormalAtk, calcUniqueAtk} from './data/calculation';
+import {
+    calcCritical,
+    calcEcho,
+    calcMultiattack,
+    calcNormalAtk, calcOugiEcho,
+    calcOugiSpecUp,
+    calcUniqueAtk
+} from './data/calculation';
 
 const Option = Select.Option;
 const { Content, Sider, Submenu } = Layout;
@@ -62,6 +75,8 @@ class McSelector extends Component{
     }
 
     onChange(value){
+        if (!value || value.length == 0) return;
+
         console.log(`Updating Dropdown with ${value} at MC Position.`);
         let char = generateMcFromTemplate(value);
         this.props.updateSt(0, char); //DJ always 0 index.
@@ -89,10 +104,35 @@ class McSelector extends Component{
 export class Team extends Component{
     constructor(props){
         super(props);
+
+        let baseModifierTemplate = {
+            baseAA: 0,
+            finalAA: 0,
+            aaMultiplier: {
+                normalAtk: 1,
+                uniqueAtk: 1,
+                critical: 1,
+                multiattack: 1,
+                echo: 1,
+            },
+            baseOugi: 0,
+            ougiMultiplier: {
+                normalAtk: 1,
+                uniqueAtk: 1,
+                critical: 1,
+                ougiSpecUp: 1
+            },
+            ougiAddition:{
+                ougiEcho: 0,
+            },
+            finalOugi: 0,
+            cbGain: 0.1,
+        };
+
         this.state = {
             mcArray:[],
             characterArray: [waterChars[0], waterChars[0], waterChars[0], waterChars[0]],
-            multipliers: [{},{},{},{}]
+            modifiers: [baseModifierTemplate,baseModifierTemplate,baseModifierTemplate,baseModifierTemplate]
         };
 
         this.onClick = this.onClick.bind(this);
@@ -108,29 +148,50 @@ export class Team extends Component{
             newTeamBuffsArray = [...newTeamBuffsArray, ...character.team_buffs];
         });
 
-        let multipliers = newCharacterArray.map((item, index)=>{
-            let baseAA = 20;
+        let modifiers = newCharacterArray.map((item, index)=>{
+            let baseAA = 10;
+            let baseOugi = 45;
+
             let normalAtk = calcNormalAtk([...newTeamBuffsArray, ...item.strengths]);
             let uniqueAtk = calcUniqueAtk([...newTeamBuffsArray, ...item.strengths]);
             let critical = calcCritical([...newTeamBuffsArray, ...item.strengths]);
             let multiattack = calcMultiattack([...newTeamBuffsArray, ...item.strengths]);
             let echo = calcEcho([...newTeamBuffsArray, ...item.strengths]);
             let finalAA = round(1.00 * normalAtk * uniqueAtk * critical * multiattack * echo * baseAA, 2);
+            let ougiSpecUp = calcOugiSpecUp([...newTeamBuffsArray, ...item.strengths]);
+            let ougiEcho = calcOugiEcho([...newTeamBuffsArray, ...item.strengths]);
+            let finalOugi = round(1.00 * normalAtk * uniqueAtk * critical * ougiSpecUp * baseOugi, 2) + ougiEcho;
 
             return {
                 baseAA: baseAA,
-                normalAtk: normalAtk,
-                uniqueAtk: uniqueAtk,
-                critical: critical,
-                multiattack: multiattack,
-                echo: echo,
-                finalAA: finalAA
+                finalAA: finalAA,
+                aaMultiplier: {
+                    normalAtk: normalAtk,
+                    uniqueAtk: uniqueAtk,
+                    critical: critical,
+                    multiattack: multiattack,
+                    echo: echo,
+                },
+                baseOugi: 45,
+                ougiMultiplier: {
+                    normalAtk: normalAtk,
+                    uniqueAtk: uniqueAtk,
+                    critical: critical,
+                    ougiSpecUp: ougiSpecUp
+                },
+                ougiAddition:{
+                    ougiEcho: ougiEcho,
+                },
+                finalOugi: finalOugi,
+                cbGain: 0.13,
             }
         });
 
+        console.log(modifiers);
+
         this.setState({
             characterArray: newCharacterArray,
-            multipliers: multipliers
+            modifiers: modifiers
         });
 
     }
@@ -158,18 +219,36 @@ export class Team extends Component{
             return <Col key={index} style={{ "minWidth": '250px'}} span={4}><CTeamBuffs character={item} /></Col>
         });
 
-        let cIndividualScore = this.state.characterArray.map((item,index)=>{
-            return <Col key={index} style={{ "minWidth": '250px'}} span={4}><CIndividualScores character={item} multipliers={this.state.multipliers[index]}/></Col>
+        let cIndividualAAScore = this.state.characterArray.map((item,index)=>{
+            return <Col key={index} style={{ "minWidth": '250px'}} span={4}><CIndividualAAScores character={item} modifiers={this.state.modifiers[index]}/></Col>
         });
 
         let cAAFinalScore = this.state.characterArray.map((item,index)=>{
-            return <Col key={index} style={{ "minWidth": '250px'}} span={4}><CAAFinalScore character={item} multipliers={this.state.multipliers[index]}/></Col>
+            return <Col key={index} style={{ "minWidth": '250px'}} span={4}><CAAFinalScore character={item} modifiers={this.state.modifiers[index]}/></Col>
+        });
+
+        let cIndividualOugiScore = this.state.characterArray.map((item,index)=>{
+            return <Col key={index} style={{ "minWidth": '250px'}} span={4}><CIndividualOugiScores character={item} modifiers={this.state.modifiers[index]}/></Col>
+        });
+
+        let cOugiFinalScore = this.state.characterArray.map((item,index)=>{
+            return <Col key={index} style={{ "minWidth": '250px'}} span={4}><COugiFinalScore character={item} modifiers={this.state.modifiers[index]}/></Col>
+        });
+
+        let cChargeCalculations = this.state.characterArray.map((item,index)=>{
+            return <Col key={index} style={{ "minWidth": '250px'}} span={4}><CChargeCalculations character={item} modifiers={this.state.modifiers[index]}/></Col>
+        });
+
+        let cFinalScore = this.state.characterArray.map((item,index)=>{
+            return <Col key={index} style={{ "minWidth": '250px'}} span={4}><CFinalScore character={item} modifiers={this.state.modifiers[index]}/></Col>
         });
 
         let baseTeamAttackScore = 0;
         for (let i = 0; i < 4; i++){
-            baseTeamAttackScore += this.state.multipliers[i].finalAA || 0;
+            baseTeamAttackScore += this.state.modifiers[i].finalAA || 0;
         }
+
+        baseTeamAttackScore = round(baseTeamAttackScore, 2);
 
         return (
         <Layout style={{padding: '24px 0 0 0', background: '#fff' }}>
@@ -199,11 +278,6 @@ export class Team extends Component{
                     {cStrengths}
                 </Row>
 
-                <Divider style={{"minWidth": "1000px"}}>Weaknesses</Divider>
-                <Row gutter={8} style={rowStyle} type="flex">
-                    {cWeaknesses}
-                </Row>
-
                 <Divider style={{"minWidth": "1000px"}}>Debuffs</Divider>
                 <Row gutter={8} style={rowStyle} type="flex">
                     {cDebuffs}
@@ -213,20 +287,35 @@ export class Team extends Component{
                 <Row gutter={8} style={rowStyle} type="flex">
                     {cTeamBuffs}
                 </Row>
-
+                <Divider style={{"minWidth": "1000px"}}>Unaccounted Flaws</Divider>
+                <Row gutter={8} style={rowStyle} type="flex">
+                    {cWeaknesses}
+                </Row>
                 <Divider style={{"minWidth": "1000px"}}>Final Attack Score</Divider>
                 <Row gutter={8} style={rowStyle} type="flex">
-                    {cIndividualScore}
+                    {cIndividualAAScore}
                 </Row>
                 <Row gutter={8} style={rowStyle} type="flex">
                     {cAAFinalScore}
+                </Row>
+                <Row gutter={8} style={rowStyle} type="flex">
+                    {cIndividualOugiScore}
+                </Row>
+                <Row gutter={8} style={rowStyle} type="flex">
+                    {cOugiFinalScore}
+                </Row>
+                <Row gutter={8} style={rowStyle} type="flex">
+                    {cChargeCalculations}
+                </Row>
+                <Row gutter={8} style={rowStyle} type="flex">
+                    {cFinalScore}
                 </Row>
             </Content>
             <Sider width={300} style={{ borderLeft: 'solid 1px #ccc',background: '#fff' }}>
                 <div style={{ marginLeft: '10px' }}>
                     <h1>Team Scoring</h1>
                     <Row>
-                        <Col span={18}>Base Attack Score</Col>
+                        <Col span={18}>Team Base Attack Score</Col>
                         <Col span={6}>{baseTeamAttackScore}</Col>
                     </Row>
                 </div>

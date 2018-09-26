@@ -1,8 +1,25 @@
 .ppoints p{
     font-size: 12px;
     font-weight: 600;
-    color: #5fd23d;
     margin-bottom:0.25em;
+    text-align: right;
+    padding-right: 18px;
+}
+
+.ppoints .generic{
+    color: #5fd23d;
+}
+
+.ppoints .nuke{
+    color: #e83c36;
+}
+
+.ppoints .ougi{
+    color: #e88433;
+}
+
+.ppoints .debuff{
+    color: #257fe8;
 }
 
 .npoints p{
@@ -31,5 +48,7 @@
     font-weight: 600;
     font-size: 15px;
     color: rgb(75, 75, 236);
-    margin-top:0.5em
+    margin-top:0.5em;
+    text-align: right;
+    padding-right: 18px;
 }

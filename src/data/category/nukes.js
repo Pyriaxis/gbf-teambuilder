@@ -1,45 +1,43 @@
-import {round} from "lodash";
-import {GENERIC} from "./generics";
+import React from 'react';
+import { round } from "lodash";
+import { GENERIC } from "./generics";
 
 export class GENERIC_NUKE extends GENERIC{
-    constructor(dmgCap, cooldown){
+    constructor(dmgCap, cooldown, desc='Generic Nuke'){
         super(dmgCap);
         this.cooldown = cooldown;
+        this.desc = desc
     }
 
     getValue(){
-        //2 pts for 100k dmg/turn
-        return round(2 * this.value/(this.cooldown*100000),1)
+        //10k dmg is one point.
+        return round(this.value/(this.cooldown*10000),1)
+    }
+
+    getModifier(){
+        return <p className={'nuke'}>+{this.getValue()}</p>
     }
 
     getDisplay(){
-        return `Generic Nuke Template String Holder`;
+        return <p>{this.desc}</p>;
     }
 }
 
 export class OUGI_ECHO extends GENERIC{
-    constructor(dmgCap){
+    constructor(dmgCap, desc='Ougi Echo'){
         super(dmgCap);
+        this.desc = desc
     }
 
     getValue(){
-        //assume ougi every 4 turns.
-        //3 points for every 400k dmg cap - higher because its free damage
-        return round(3 * this.value, 1);
-    }
-}
-
-export class NUKE_ROMEO extends GENERIC_NUKE{
-    constructor(dmgCap, cooldown){
-        super(dmgCap, cooldown)
+        return round(this.value/(10000),1)
     }
 
-    getValue(){
-        //romeo can recast, so roughly multiply by 2
-        return round(4 * this.value/(this.cooldown*100000),1)
+    getModifier(){
+        return <p className={'ougi'}>+{this.getValue()}</p>
     }
 
     getDisplay(){
-        return `Romeo Nuke Stronk`
+        return <p>{this.desc}</p>;
     }
 }

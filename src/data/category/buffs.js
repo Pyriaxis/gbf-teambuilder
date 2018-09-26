@@ -20,11 +20,13 @@ class GENERIC_BUFF extends GENERIC{
     }
 
     getModifier(){
-        return `x${1+this.getValue()}`
+        return (<p className="generic">x{(1+this.getValue()).toFixed(2)}</p>);
     }
 
     getTeamDisplay(){
-        return [<span>Team</span>, this.getDisplay()];
+        return (<div>
+                <span>Team</span>{this.getDisplay()}
+            </div>)
     }
 }
 
@@ -77,10 +79,6 @@ export class ATK_UP_OUGI extends GENERIC_BUFF{
 }
 
 export class ATK_UP_STK_UNIQUE extends GENERIC_BUFF{
-    constructor(strength){
-        super(strength);
-    }
-
     getValue(){
         //Scaled to 70% due to time taken to stack
         return round(this.value * 0.7, 2);
@@ -162,8 +160,8 @@ export class OUGI_SPEC_UP extends GENERIC_BUFF {
     }
 
     getValue(){
-        //33% weightage to dmgUp, 66% weightage to capUp
-        return round((this.capUp * 2/3 + this.dmgUp * 1/3), 2);
+        //66% weightage to dmgUp, 33% weightage to capUp
+        return round((this.capUp * 1/3 + this.dmgUp * 2/3), 2);
     }
 
     getDisplay(){

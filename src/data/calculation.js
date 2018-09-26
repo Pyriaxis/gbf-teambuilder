@@ -1,4 +1,5 @@
 import * as buffs from "./category/buffs";
+import * as nukes from "./category/nukes";
 import {round} from "lodash";
 
 export function calcNormalAtk(array){
@@ -43,7 +44,7 @@ export function calcCritical(array){
         if (buff instanceof buffs.CRITICAL){
             multiplier += buff.getValue();
         }
-    })
+    });
 
     multiplier = round(multiplier, 2);
 
@@ -58,7 +59,7 @@ export function calcMultiattack(array){
         if (buff instanceof buffs.MULTIATTACK){
             multiplier += buff.getValue();
         }
-    })
+    });
 
     multiplier = round(multiplier, 2);
 
@@ -73,9 +74,33 @@ export function calcEcho(array){
         if (buff instanceof buffs.ECHO){
             multiplier += buff.getValue();
         }
-    })
+    });
 
     multiplier = round(multiplier, 2);
 
     return multiplier;
+}
+
+export function calcOugiSpecUp(array){
+    let multiplier = 1.00;
+
+    array.forEach(buff=>{
+        if (buff instanceof buffs.OUGI_SPEC_UP){
+            multiplier += buff.getValue();
+        }
+    });
+
+    return multiplier;
+}
+
+export function calcOugiEcho(array){
+    let addition = 0;
+
+    array.forEach(nuke=>{
+        if (nuke instanceof nukes.OUGI_ECHO){
+            addition += nuke.getValue();
+        }
+    });
+
+    return addition;
 }

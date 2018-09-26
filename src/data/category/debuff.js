@@ -11,7 +11,7 @@ export class GENERIC_DEBUFF extends GENERIC{
     }
 
     getModifier(){
-        return `${this.value * 100}%`;
+        return <p className={'debuff'}>{this.value * 100}%</p>;
     }
 }
 

@@ -2,7 +2,7 @@ import * as buffs from './category/buffs';
 import * as debuffs from './category/debuff';
 
 import { CUSTOM_STRING } from "./category/generics";
-import {NUKE_ROMEO, OUGI_ECHO} from "./category/nukes";
+import {GENERIC_NUKE, OUGI_ECHO} from "./category/nukes";
 
 import { round } from 'lodash';
 
@@ -23,12 +23,10 @@ export default [
         picture: '/img/water/altair.jpg',
         description: 'Bookworm that is one of Water\'s premier buffers. Covers a wide assortment of buffs and debuffs - his sole weakness is that he cannot provide multiattack as well.',
         spec: ['staff'],
-        strengths: [ new buffs.SERAPH(),
-            new buffs.ATK_UP_STK_UNIQUE(0.4),
-            new buffs.OUGI_SPEC_UP(1.5, 1)],
+        strengths: [],
         nukes:[],
         team_buffs: [
-            new buffs.CRITICAL(0.7, 0.2, 0.5),
+            new buffs.CRITICAL(0.7, 0.2, 0.75),
             new buffs.ATK_UP_DUAL(0.3, 3/7),
             new buffs.ATK_UP_ELEMENT(0.3, 3/7),
             new buffs.DEF_UP_SINGLE(0.3,3/7),
@@ -81,8 +79,9 @@ export default [
         description: 'Former lord turned Batman, he hits hard with stacks and is relatively bursty with his triple nuke while being able to protect the team. Not ideal for long fights, however.',
         spec: ['sword'],
         strengths:[
-                new OUGI_ECHO(635000),
-                new NUKE_ROMEO(630000, 6),
+                new GENERIC_NUKE(630000, 6, 'Lama Acuta'),
+                new GENERIC_NUKE(1260000, 10, 'Lama Acuta (Amp)'),
+                new OUGI_ECHO(635000, 'Ougi Echo'),
                 new buffs.ATK_UP_UNIQUE(0.3, 1, 'romeo'),
                 new CUSTOM_STRING('Able to tank multihit Ougis with Substitute and 80% Cut, 6T CD.', 5)
         ],

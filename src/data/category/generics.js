@@ -1,3 +1,4 @@
+import React from 'react';
 import {round} from "lodash";
 
 export class GENERIC{
@@ -31,6 +32,6 @@ export class CUSTOM_STRING extends GENERIC{
     }
 
     getDisplay(){
-        return this.string + ` ${this.getValue()} pts`;
+        return <p>{this.string}</p>;
     }
 }
