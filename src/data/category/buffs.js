@@ -39,6 +39,10 @@ export class SERAPH extends GENERIC{
         return <p>20% Seraphic Bonus damage against weak element<br/>
                   Does not stack with Seraph Weapon</p>
     }
+
+    getModifier(){
+        return <p>-</p>
+    }
 }
 
 /**
@@ -280,7 +284,7 @@ export class CHARGE_BAR_BOOST extends GENERIC_BUFF{
     }
 
     getValue(){
-        return 0;
+        return (this.strength / this.cooldown);
     }
 
     getDisplay(){
@@ -288,7 +292,7 @@ export class CHARGE_BAR_BOOST extends GENERIC_BUFF{
     }
 
     getModifier(){
-        return '+Ougi Weight'
+        return (<p className="ougi">+{(this.getValue()).toFixed(2)} cb/t</p>)
     }
 }
 

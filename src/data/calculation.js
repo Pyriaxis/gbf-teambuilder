@@ -1,6 +1,7 @@
 import * as buffs from "./category/buffs";
 import * as nukes from "./category/nukes";
 import {round} from "lodash";
+import {CHARGE_BAR_BOOST} from "./category/buffs";
 
 export function calcNormalAtk(array){
     let multiplier = 1.00;
@@ -103,4 +104,16 @@ export function calcOugiEcho(array){
     });
 
     return addition;
+}
+
+export function calcChargeBarBoost(array){
+    let cboost = 0;
+
+    array.forEach(boost=>{
+        if (boost instanceof buffs.CHARGE_BAR_BOOST){
+            cboost += boost.getValue();
+        }
+    })
+
+    return cboost;
 }

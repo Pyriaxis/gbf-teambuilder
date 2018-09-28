@@ -249,11 +249,11 @@ export class CChargeCalculations extends Character{
             <div>
                 <Row key={'cg'}>
                     <Col className={'buffs'} span={18}><p>Charge Gain/turn (avg)</p></Col>
-                    <Col className={'ppoints'} span={6}><p className="ougi">{modifiers.cbGain * 100 * modifiers.aaMultiplier.multiattack}%</p></Col>
+                    <Col className={'ppoints'} span={6}><p className="ougi">{(modifiers.cbGain * 100).toFixed(2)}%</p></Col>
                 </Row>
                 <Row key={'tto'}>
                     <Col className={'buffs'} span={18}><p>Turns to Ougi</p></Col>
-                    <Col className={'ppoints'} span={6}><p className="ougi">{round(1/(modifiers.cbGain * modifiers.aaMultiplier.multiattack),1)}</p></Col>
+                    <Col className={'ppoints'} span={6}><p className="ougi">{round(modifiers.turnsToOugi,1)}</p></Col>
                 </Row>
             </div>
         )
@@ -263,14 +263,10 @@ export class CChargeCalculations extends Character{
 export class CFinalScore extends Character{
     render(){
         let modifiers = this.props.modifiers;
-        let ougiTurnsTaken = round(1/(modifiers.cbGain * modifiers.aaMultiplier.multiattack),1);
-        let finalScore = (modifiers.finalAA * ougiTurnsTaken + modifiers.finalOugi)/(ougiTurnsTaken + 1) ;
-
         return(
             <div>
                 <Row>
-                    <Col className={'final'} span={18}><p>Final Amortized Score</p></Col>
-                    <Col className={'finalpts'} span={6}><p>{round(finalScore,2)}</p></Col>
+                    <Col className={'amortized'} span={24}><p>{round(modifiers.finalScore,2)}</p></Col>
                 </Row>
             </div>
         )

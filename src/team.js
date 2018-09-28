@@ -19,7 +19,7 @@ import {
     calcMultiattack,
     calcNormalAtk, calcOugiEcho,
     calcOugiSpecUp,
-    calcUniqueAtk
+    calcUniqueAtk, calcChargeBarBoost
 } from './data/calculation';
 
 const Option = Select.Option;
@@ -151,16 +151,22 @@ export class Team extends Component{
         let modifiers = newCharacterArray.map((item, index)=>{
             let baseAA = 10;
             let baseOugi = 45;
+            let baseCbGain = 0.13;
 
-            let normalAtk = calcNormalAtk([...newTeamBuffsArray, ...item.strengths]);
-            let uniqueAtk = calcUniqueAtk([...newTeamBuffsArray, ...item.strengths]);
-            let critical = calcCritical([...newTeamBuffsArray, ...item.strengths]);
-            let multiattack = calcMultiattack([...newTeamBuffsArray, ...item.strengths]);
-            let echo = calcEcho([...newTeamBuffsArray, ...item.strengths]);
+            let combinedArray = [...newTeamBuffsArray, ...item.strengths];
+
+            let normalAtk = calcNormalAtk(combinedArray);
+            let uniqueAtk = calcUniqueAtk(combinedArray);
+            let critical = calcCritical(combinedArray);
+            let multiattack = calcMultiattack(combinedArray);
+            let echo = calcEcho(combinedArray);
             let finalAA = round(1.00 * normalAtk * uniqueAtk * critical * multiattack * echo * baseAA, 2);
-            let ougiSpecUp = calcOugiSpecUp([...newTeamBuffsArray, ...item.strengths]);
-            let ougiEcho = calcOugiEcho([...newTeamBuffsArray, ...item.strengths]);
+            let ougiSpecUp = calcOugiSpecUp(combinedArray);
+            let ougiEcho = calcOugiEcho(combinedArray);
             let finalOugi = round(1.00 * normalAtk * uniqueAtk * critical * ougiSpecUp * baseOugi, 2) + ougiEcho;
+            let cbGain = baseCbGain + (0.12 * (multiattack-1)) + calcChargeBarBoost(combinedArray);
+            let turnsToOugi = (1/cbGain);
+            let finalScore = (finalAA * turnsToOugi + finalOugi)/(turnsToOugi + 1);
 
             return {
                 baseAA: baseAA,
@@ -183,7 +189,9 @@ export class Team extends Component{
                     ougiEcho: ougiEcho,
                 },
                 finalOugi: finalOugi,
-                cbGain: 0.13,
+                cbGain: cbGain,
+                turnsToOugi: turnsToOugi,
+                finalScore: finalScore
             }
         });
 
@@ -245,7 +253,7 @@ export class Team extends Component{
 
         let baseTeamAttackScore = 0;
         for (let i = 0; i < 4; i++){
-            baseTeamAttackScore += this.state.modifiers[i].finalAA || 0;
+            baseTeamAttackScore += this.state.modifiers[i].finalScore || 0;
         }
 
         baseTeamAttackScore = round(baseTeamAttackScore, 2);
@@ -291,7 +299,7 @@ export class Team extends Component{
                 <Row gutter={8} style={rowStyle} type="flex">
                     {cWeaknesses}
                 </Row>
-                <Divider style={{"minWidth": "1000px"}}>Final Attack Score</Divider>
+                <Divider style={{"minWidth": "1000px"}}>Offense Subscores</Divider>
                 <Row gutter={8} style={rowStyle} type="flex">
                     {cIndividualAAScore}
                 </Row>
@@ -307,6 +315,7 @@ export class Team extends Component{
                 <Row gutter={8} style={rowStyle} type="flex">
                     {cChargeCalculations}
                 </Row>
+                <Divider style={{"minWidth": "1000px"}}>Final Amortized Offense Score</Divider>
                 <Row gutter={8} style={rowStyle} type="flex">
                     {cFinalScore}
                 </Row>
